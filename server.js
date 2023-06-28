@@ -1,8 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const jwt = require("jsonwebtoken");
+const  secretKey = "secretkey";
 const productRoute = require('./routes/productRoute');
+const userRoute = require('./routes/userRoute');
 const errorMiddleware = require('./middleware/errorMiddleware');
-const cors = require('cors')
+const cors = require('cors');
+const { json } = require('express');
 const FRONTEND_URL = process.env.FRONTEND_URL;
 const app = express();
 
@@ -27,10 +31,31 @@ const PORT = process.env.PORT || 3000;
 
 
 app.use('/api/products',productRoute);
+app.use('/api/register',userRoute);
+
+
+
 app.get('/',(req,res) => {
-    throw new Error('fake error');
-     res.send('Hello from the node code');
+    // throw new Error('fake error');
+    //  res.send('Hello from the node code');
+    res.json({message:"This is api response"}); 
 })
+
+// app.post('/api/login',(req,res)=>{
+//      const user = {
+//         id:1,
+//         username: 'Manpreet',
+//         email:'powar086@gmail.com'
+//      }
+//      jwt.sign({user},secretKey,{expiresIn:'300s'}, (error,token)=>{
+//         user.token = token;
+//         res.send(user); 
+//         // res.json({
+//         //    user
+           
+//         // })
+//      })
+// })
 app.use(errorMiddleware);
 
 
